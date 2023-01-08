@@ -19,33 +19,51 @@ def print_header
   puts "-------------"
 end
 
-def print(students)
-  students.each_with_index do |student, index|
+def print(students, students_with_r)
+  puts "\nAll students:"
+  students.each_with_index{
+    |student, index|
     puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
-  end
+  }
+
+  puts "\nNames beginning with 'R':"
+  students_with_r.each_with_index{
+    |student, index|
+    if student[:name].split('')[0] === "R"
+      puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  }
 end
 
-def print_footer(students)
+def print_footer(students, students_with_r)
   puts "\nOverall, we have #{students.count} great students."
+  puts "We have #{students_with_r.count} students whose names start with R."
 end
 
 def input_students()
   puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "To finish, just hit return twice."
   students = []
+  students_with_r = []
   name = gets.chomp
 
   while !name.empty? do
-    students.push({name: name, cohort: :november})
+    if name.split("")[0] == 'R'
+      students_with_r.push({name: name, cohort: :november})
+      students.push({name: name, cohort: :november})
+    else
+      students.push({name: name, cohort: :november})
+    end
+    
     puts "Now we have #{students.length} students."
     name = gets.chomp
   end
 
-  students
+  return [students, students_with_r]
 end
 
 # Nothing happens until we call the methods
-students = input_students
+data = input_students
 print_header
-print(students)
-print_footer(students)
+print(data[0], data[1])
+print_footer(data[0], data[1])
