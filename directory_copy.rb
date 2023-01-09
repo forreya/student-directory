@@ -1,59 +1,69 @@
 
+months = %w(January February March April May June July August September October November December)
+
 def print_header
   puts "The students of Villains Academy".center(40)
   puts "-------------".center(40)
 end
 
-def print_students(students, students_with_r, students_less_than_12)
+def print_students(all_students, months)
   
-  puts "\nAll students:"
-  students_printer(students)
-  puts "\nNames beginning with 'R':"
-  students_printer(students_with_r)
-  puts "\nNames shorter than 12 characters:"
-  students_printer(students_less_than_12)
+  cohorts = all_students.group_by{
+    |student|
+    student[:cohort]
+  }.to_a
+
+  cohorts = cohorts.sort_by{
+    |cohort|
+    months.index(cohort[0].to_s)
+}
+
+  cohorts.each{
+    |cohort_array|
+    puts ""
+    students_printer(cohort_array)
+  }
+
 end
 
-def students_printer(list_of_students)
+def students_printer(cohort_data)
   i = 0
-  while i < list_of_students.length 
-    puts "#{i+1}. #{list_of_students[i][:name]}, who likes #{list_of_students[i][:hobby]} and was born in #{list_of_students[i][:cob]} (#{list_of_students[i][:cohort]} cohort)."
+  puts "#{cohort_data[0]} cohort:"
+  while i < cohort_data[1].length
+    puts "#{i+1}. #{cohort_data[1][i][:name]}, who likes #{cohort_data[1][i][:hobby]} and was born in #{cohort_data[1][i][:cob]}."
     i += 1
   end
 end
 
-def print_footer(students, students_with_r, students_less_than_12)
-  puts "\nOverall, we have #{students.count} great students."
-  puts "#{students_with_r.count} students have names starting with R."
-  puts "#{students_less_than_12.count} students have names shorter than 12 characters."
+def print_footer(all_students)
+  puts "\nOverall, we have #{all_students.count} great students."
   puts ""
 end
 
-def input_students()
+def input_students(months)
   puts "Please enter the names of students you want to add."
   puts "To finish, just hit return twice."
   students = []
-  students_with_r = []
-  students_less_than_12 = []
   name = gets.chomp
 
   while !name.empty? do
   # Storing the cohort name as symbols because we don't expect to do 'String'-like activities
     name = name.downcase.capitalize()
+
     puts "Please enter #{name}'s cohort month:"
-    cohort = input_info("cohort month").capitalize.to_sym
+    cohort = input_info("cohort month").capitalize
+
+    while !months.include?(cohort) do
+      puts "Not a valid month. Try again."
+      cohort = input_info("cohort month").capitalize
+    end
+
+    cohort = cohort.to_sym
     puts "Please enter #{name}'s favorite hobby:"
     hobby = input_info("hobby")
     puts "Please enter #{name}'s country of birth:"
     cob = input_info("country of birth")
     cob = cob.downcase.capitalize()
-
-    if name.split("")[0] == 'R'
-      students_with_r.push({name: name, cohort: cohort, hobby: hobby, cob: cob})
-    end
-    if name.split('').length < 12
-      students_less_than_12.push({name: name, cohort: cohort, hobby: hobby, cob: cob})
-    end
       
     students.push({name: name, cohort: cohort, hobby: hobby, cob: cob})
     puts "Now we have #{students.length} students."
@@ -61,7 +71,7 @@ def input_students()
     name = gets.chomp
   end
 
-  return [students, students_with_r, students_less_than_12]
+  return students
 end
 
 def input_info(attribute)
@@ -76,7 +86,7 @@ def input_info(attribute)
 end
 
 # Nothing happens until we call the methods
-data = input_students
+all_students = input_students(months)
 print_header
-print_students(data[0], data[1], data[2])
-print_footer(data[0], data[1], data[2])
+print_students(all_students, months)
+print_footer(all_students)
