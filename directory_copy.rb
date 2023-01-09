@@ -1,7 +1,7 @@
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(40)
+  puts "-------------".center(40)
 end
 
 def print(students, students_with_r, students_less_than_12)
@@ -26,6 +26,7 @@ def print_footer(students, students_with_r, students_less_than_12)
   puts "\nOverall, we have #{students.count} great students."
   puts "#{students_with_r.count} students have names starting with R."
   puts "#{students_less_than_12.count} students have names shorter than 12 characters."
+  puts ""
 end
 
 def input_students()
