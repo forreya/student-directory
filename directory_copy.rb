@@ -36,7 +36,13 @@ def students_printer(cohort_data)
 end
 
 def print_footer(all_students)
-  puts "\nOverall, we have #{all_students.count} great students."
+  if all_students.count === 0
+    puts "There are no students currently enrolled."
+  elsif all_students.count === 1
+    puts "\nOverall, we have #{all_students.count} great student."
+  else
+    puts "\nOverall, we have #{all_students.count} great students."
+  end
   puts ""
 end
 
@@ -66,7 +72,7 @@ def input_students(months)
     cob = cob.downcase.capitalize()
       
     students.push({name: name, cohort: cohort, hobby: hobby, cob: cob})
-    puts "Now we have #{students.length} students."
+    puts students.length === 1 ? "Now we have #{students.length} student." : "Now we have #{students.length} students."
     puts "Please enter the name of a student you want to add:"
     name = gets.chomp
   end
