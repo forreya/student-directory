@@ -17,7 +17,7 @@ end
 def students_printer(list_of_students)
   i = 0
   while i < list_of_students.length 
-    puts "#{i+1}. #{list_of_students[i][:name]} (#{list_of_students[i][:cohort]} cohort)"
+    puts "#{i+1}. #{list_of_students[i][:name]}, who likes #{list_of_students[i][:hobby]} and was born in #{list_of_students[i][:cob]}."
     i += 1
   end
 end
@@ -29,7 +29,7 @@ def print_footer(students, students_with_r, students_less_than_12)
 end
 
 def input_students()
-  puts "Please enter the names of the students"
+  puts "Please enter the names of students you want to add."
   puts "To finish, just hit return twice."
   students = []
   students_with_r = []
@@ -38,19 +38,38 @@ def input_students()
 
   while !name.empty? do
   # Storing the cohort name as symbols because we don't expect to do 'String'-like activities
+    name = name.downcase.capitalize()
+    puts "Please enter #{name}'s favorite hobby:"
+    hobby = input_info("hobby")
+    puts "Please enter #{name}'s country of birth:"
+    cob = input_info("country of birth")
+    cob = cob.downcase.capitalize()
+
     if name.split("")[0] == 'R'
-      students_with_r.push({name: name, cohort: :november})
+      students_with_r.push({name: name, cohort: :november, hobby: hobby, cob: cob})
     end
     if name.split('').length < 12
-      students_less_than_12.push({name: name, cohort: :november})
+      students_less_than_12.push({name: name, cohort: :november, hobby: hobby, cob: cob})
     end
       
-    students.push({name: name, cohort: :november})
+    students.push({name: name, cohort: :november, hobby: hobby, cob: cob})
     puts "Now we have #{students.length} students."
+    puts "Please enter the name of a student you want to add:"
     name = gets.chomp
   end
 
   return [students, students_with_r, students_less_than_12]
+end
+
+def input_info(attribute)
+  info = gets.chomp
+
+  while info.empty? do
+    puts "This field cannot be empty. Please input a #{attribute}:"
+    info = gets.chomp
+  end
+
+  return info.downcase
 end
 
 # Nothing happens until we call the methods
