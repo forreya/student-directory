@@ -36,8 +36,8 @@ def students_printer(cohort_data)
 end
 
 def print_footer(all_students)
-  if all_students.count === 0
-    puts "There are no students currently enrolled."
+  if all_students.empty?
+    puts "\nThere are no students currently enrolled."
   elsif all_students.count === 1
     puts "\nOverall, we have #{all_students.count} great student."
   else
