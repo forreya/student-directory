@@ -96,6 +96,12 @@ def print_menu
   puts "9. Exit"
 end
 
+def display_students(all_students, months)
+  print_header
+  print_students(all_students, months)
+  print_footer(all_students)
+end
+
 def interactive_menu
   months = %w(January February March April May June July August September October November December)
   all_students = []
@@ -108,9 +114,7 @@ def interactive_menu
     when "1"
       all_students = input_students(months)
     when "2"
-      print_header
-      print_students(all_students, months)
-      print_footer(all_students)
+      display_students(all_students, months)
     when "9"
       break
     else
