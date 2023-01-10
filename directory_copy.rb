@@ -6,7 +6,7 @@ def print_header
   puts "-------------".center(40)
 end
 
-def print_students()
+def print_all_students()
   cohorts = @all_students.group_by{
     |student|
     student[:cohort]
@@ -20,11 +20,11 @@ def print_students()
   cohorts.each{
     |cohort_array|
     puts ""
-    students_printer(cohort_array)
+    print_cohort(cohort_array)
   }
 end
 
-def students_printer(cohort_data)
+def print_cohort(cohort_data)
   i = 0
   puts "#{cohort_data[0]} cohort:"
   while i < cohort_data[1].length
@@ -93,21 +93,38 @@ def print_menu
   puts "What would you like to do?"
   puts "1. Input students"
   puts "2. Display students."
+  puts "3. Save data."
   puts "9. Exit"
 end
 
 def display_students()
   print_header
-  print_students()
+  print_all_students()
   print_footer()
+end
+
+def save_data
+  # Open the file for writing
+  file = File.open("students.csv", "w")
+  # Iterate over the array of students
+  @all_students.each {
+    |student|
+    student_array = [student[:name], student[:cohort], student[:hobby], student[:cob]]
+    file.puts(student_array.join(","))
+  }
+  file.close
+  puts "\nData saved."
+  puts ""
 end
 
 def selection_process(selection)
   case selection
   when "1"
-    @all_students = input_students()
+    @all_students = input_students
   when "2"
-    display_students()
+    display_students
+  when "3"
+    save_data
   when "9"
     # Exits the program
     exit
@@ -119,10 +136,9 @@ end
 def interactive_menu
   loop do
     print_menu
-    selection = gets.chomp
-    selection_process(selection)
+    selection_process(gets.chomp)
   end
 end
 
-# Nothing happens until we call the methods
+# Nothing happens until we call the method
 interactive_menu
