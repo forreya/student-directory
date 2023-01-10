@@ -102,23 +102,25 @@ def display_students()
   print_footer()
 end
 
+def selection_process(selection)
+  case selection
+  when "1"
+    @all_students = input_students()
+  when "2"
+    display_students()
+  when "9"
+    # Exits the program
+    exit
+  else
+    puts "That is not a valid selection."
+  end
+end
+
 def interactive_menu
-
-
   loop do
     print_menu
     selection = gets.chomp
-
-    case selection
-    when "1"
-      @all_students = input_students()
-    when "2"
-      display_students()
-    when "9"
-      break
-    else
-      puts "That is not a valid selection."
-    end
+    selection_process(selection)
   end
 end
 
