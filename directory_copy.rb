@@ -89,16 +89,19 @@ def input_info(attribute)
   return info.downcase
 end
 
+def print_menu
+  puts "What would you like to do?"
+  puts "1. Input students"
+  puts "2. Display students."
+  puts "9. Exit"
+end
+
 def interactive_menu
   months = %w(January February March April May June July August September October November December)
   all_students = []
 
   loop do
-    puts "What would you like to do?"
-    puts "1. Input students"
-    puts "2. Display students."
-    puts "9. Exit"
-
+    print_menu
     selection = gets.chomp
 
     case selection
