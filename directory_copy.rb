@@ -1,6 +1,4 @@
 
-months = %w(January February March April May June July August September October November December)
-
 def print_header
   puts "The students of Villains Academy".center(40)
   puts "-------------".center(40)
@@ -91,8 +89,36 @@ def input_info(attribute)
   return info.downcase
 end
 
+def interactive_menu
+  months = %w(January February March April May June July August September October November December)
+  all_students = []
+
+  loop do
+    puts "What would you like to do?"
+    puts "1. Input students"
+    puts "2. Display students."
+    puts "9. Exit"
+
+    selection = gets.chomp
+
+    case selection
+    when "1"
+      all_students = input_students(months)
+    when "2"
+      print_header
+      print_students(all_students, months)
+      print_footer(all_students)
+    when "9"
+      break
+    else
+      puts "That is not a valid selection."
+    end
+  end
+end
+
 # Nothing happens until we call the methods
-all_students = input_students(months)
-print_header
-print_students(all_students, months)
-print_footer(all_students)
+interactive_menu
+# all_students = input_students(months)
+# print_header
+# print_students(all_students, months)
+# print_footer(all_students)
