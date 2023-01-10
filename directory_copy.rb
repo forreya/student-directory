@@ -1,19 +1,20 @@
+@months = %w(January February March April May June July August September October November December)
+@all_students = []
 
 def print_header
   puts "The students of Villains Academy".center(40)
   puts "-------------".center(40)
 end
 
-def print_students(all_students, months)
-  
-  cohorts = all_students.group_by{
+def print_students()
+  cohorts = @all_students.group_by{
     |student|
     student[:cohort]
   }.to_a
 
   cohorts = cohorts.sort_by{
     |cohort|
-    months.index(cohort[0].to_s)
+    @months.index(cohort[0].to_s)
 }
 
   cohorts.each{
@@ -21,7 +22,6 @@ def print_students(all_students, months)
     puts ""
     students_printer(cohort_array)
   }
-
 end
 
 def students_printer(cohort_data)
@@ -33,18 +33,18 @@ def students_printer(cohort_data)
   end
 end
 
-def print_footer(all_students)
-  if all_students.empty?
+def print_footer()
+  if @all_students.empty?
     puts "\nThere are no students currently enrolled."
-  elsif all_students.count === 1
-    puts "\nOverall, we have #{all_students.count} great student."
+  elsif @all_students.count === 1
+    puts "\nOverall, we have #{@all_students.count} great student."
   else
-    puts "\nOverall, we have #{all_students.count} great students."
+    puts "\nOverall, we have #{@all_students.count} great students."
   end
   puts ""
 end
 
-def input_students(months)
+def input_students()
   puts "Please enter the names of students you want to add."
   puts "To finish, just hit return twice."
   students = []
@@ -57,7 +57,7 @@ def input_students(months)
     puts "Please enter #{name}'s cohort month:"
     cohort = input_info("cohort month").capitalize
 
-    while !months.include?(cohort) do
+    while !@months.include?(cohort) do
       puts "Not a valid month. Try again."
       cohort = input_info("cohort month").capitalize
     end
@@ -96,15 +96,14 @@ def print_menu
   puts "9. Exit"
 end
 
-def display_students(all_students, months)
+def display_students()
   print_header
-  print_students(all_students, months)
-  print_footer(all_students)
+  print_students()
+  print_footer()
 end
 
 def interactive_menu
-  months = %w(January February March April May June July August September October November December)
-  all_students = []
+
 
   loop do
     print_menu
@@ -112,9 +111,9 @@ def interactive_menu
 
     case selection
     when "1"
-      all_students = input_students(months)
+      @all_students = input_students()
     when "2"
-      display_students(all_students, months)
+      display_students()
     when "9"
       break
     else
@@ -125,7 +124,3 @@ end
 
 # Nothing happens until we call the methods
 interactive_menu
-# all_students = input_students(months)
-# print_header
-# print_students(all_students, months)
-# print_footer(all_students)
