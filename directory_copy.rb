@@ -94,6 +94,7 @@ def print_menu
   puts "1. Input students"
   puts "2. Display students."
   puts "3. Save data."
+  puts "4. Retrieve previous data."
   puts "9. Exit"
 end
 
@@ -117,6 +118,17 @@ def save_data
   puts ""
 end
 
+def retrieve_data
+  # Open the file for reading
+  file = File.open("students.csv","r")
+  file.readlines.each {
+    |line|
+    name, cohort, hobby, cob = line.chomp.split(",")
+      @all_students << {name: name, cohort: cohort.to_sym, hobby: hobby, cob: cob}
+  }
+  file.close
+end
+
 def selection_process(selection)
   case selection
   when "1"
@@ -125,6 +137,8 @@ def selection_process(selection)
     display_students
   when "3"
     save_data
+  when "4"
+    retrieve_data
   when "9"
     # Exits the program
     exit
