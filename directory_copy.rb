@@ -48,7 +48,7 @@ def input_students()
   puts "Please enter the names of students you want to add."
   puts "To finish, just hit return twice."
   students = []
-  name = gets.chomp
+  name = STDIN.gets.chomp
 
   while !name.empty? do
   # Storing the cohort name as symbols because we don't expect to do 'String'-like activities
@@ -72,18 +72,18 @@ def input_students()
     students.push({name: name, cohort: cohort, hobby: hobby, cob: cob})
     puts students.length === 1 ? "Now we have #{students.length} student." : "Now we have #{students.length} students."
     puts "Please enter the name of a student you want to add:"
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
 
   return students
 end
 
 def input_info(attribute)
-  info = gets.chomp
+  info = STDIN.gets.chomp
 
   while info.empty? do
     puts "This field cannot be empty. Please input a #{attribute}:"
-    info = gets.chomp
+    info = STDIN.gets.chomp
   end
 
   return info.downcase
@@ -118,15 +118,27 @@ def save_data
   puts ""
 end
 
-def retrieve_data
+def retrieve_data(filename = "students.csv")
   # Open the file for reading
-  file = File.open("students.csv","r")
+  file = File.open(filename,"r")
   file.readlines.each {
     |line|
     name, cohort, hobby, cob = line.chomp.split(",")
       @all_students << {name: name, cohort: cohort.to_sym, hobby: hobby, cob: cob}
   }
   file.close
+end
+
+def try_retrieve_data
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exist?(filename)
+    retrieve_data(filename)
+    puts "Loaded previously stored data from #{filename}"
+  else
+    puts "The file '#{filename}' couldn't be found."
+    exit
+  end
 end
 
 def selection_process(selection)
@@ -150,9 +162,10 @@ end
 def interactive_menu
   loop do
     print_menu
-    selection_process(gets.chomp)
+    selection_process(STDIN.gets.chomp)
   end
 end
 
 # Nothing happens until we call the method
+try_retrieve_data
 interactive_menu
