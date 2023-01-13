@@ -132,14 +132,19 @@ end
 
 def try_retrieve_data
   filename = ARGV.first
-  return if filename.nil?
-  if File.exist?(filename)
+  if !argv_given
+    retrieve_data()
+  elsif File.exist?(filename)
     retrieve_data(filename)
     puts "Loaded previously stored data from #{filename}"
   else
     puts "The file '#{filename}' couldn't be found."
     exit
   end
+end
+
+def argv_given
+  return true if !ARGV.empty?
 end
 
 def selection_process(selection)
