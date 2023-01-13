@@ -106,8 +106,13 @@ def display_students()
 end
 
 def save_data
+  puts "\nWhat file would you like to save the data to?"
+  chosen_file = STDIN.gets.chomp
+  if !is_csv(chosen_file)
+    chosen_file += ".csv"
+  end
   # Open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(chosen_file, "w")
   # Iterate over the array of students
   @all_students.each {
     |student|
@@ -115,8 +120,29 @@ def save_data
     file.puts(student_array.join(","))
   }
   file.close
-  puts "\nData saved."
+  puts "\nData saved to #{chosen_file}"
   puts ""
+end
+
+def choose_file
+  chosen_file = STDIN.gets.chomp
+  if !is_csv(chosen_file)
+    puts "Must be a '.csv' file. Try again."
+    choose_file
+  elsif !does_it_exist(chosen_file)
+    puts "File doesn't exist. Try again."
+    choose_file
+  else
+    chosen_file
+  end
+end
+
+def is_csv(filename)
+  filename.end_with?(".csv")
+end
+
+def does_it_exist(filename)
+  File.exist?(filename)
 end
 
 def retrieve_data(filename = "students.csv")
@@ -136,7 +162,13 @@ def try_retrieve_data
   filename = ARGV.first
   if !argv_given
     retrieve_data()
-  elsif File.exist?(filename)
+  else
+    file_given(filename)
+  end
+end
+
+def file_given(filename)
+  if does_it_exist(filename)
     retrieve_data(filename)
   else
     puts "The file '#{filename}' couldn't be found."
@@ -157,7 +189,9 @@ def selection_process(selection)
   when "3"
     save_data
   when "4"
-    retrieve_data
+    puts "\nWhich file would you like to retrieve the data from?"
+    filename = choose_file
+    retrieve_data(filename)
   when "9"
     # Exits the program
     puts "Exiting program..."
