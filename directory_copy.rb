@@ -47,7 +47,6 @@ end
 def input_students()
   puts "Please enter the names of students you want to add."
   puts "To finish, just hit return twice."
-  students = []
   name = STDIN.gets.chomp
 
   while !name.empty? do
@@ -69,13 +68,15 @@ def input_students()
     cob = input_info("country of birth")
     cob = cob.downcase.capitalize()
       
-    students.push({name: name, cohort: cohort, hobby: hobby, cob: cob})
-    puts students.length === 1 ? "Now we have #{students.length} student." : "Now we have #{students.length} students."
+    add_student(name, cohort, hobby, cob)
+    puts @all_students.length === 1 ? "Now we have #{@all_students.length} student." : "Now we have #{@all_students.length} students."
     puts "Please enter the name of a student you want to add:"
     name = STDIN.gets.chomp
   end
+end
 
-  return students
+def add_student(name, cohort, hobby, cob)
+  @all_students.push({name: name, cohort: cohort, hobby: hobby, cob: cob})
 end
 
 def input_info(attribute)
@@ -124,7 +125,7 @@ def retrieve_data(filename = "students.csv")
   file.readlines.each {
     |line|
     name, cohort, hobby, cob = line.chomp.split(",")
-      @all_students << {name: name, cohort: cohort.to_sym, hobby: hobby, cob: cob}
+      add_student(name, cohort, hobby, cob)
   }
   file.close
 end
@@ -144,7 +145,7 @@ end
 def selection_process(selection)
   case selection
   when "1"
-    @all_students = input_students
+    input_students
   when "2"
     display_students
   when "3"
