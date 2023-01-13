@@ -112,14 +112,15 @@ def save_data
     chosen_file += ".csv"
   end
   # Open the file for writing
-  file = File.open(chosen_file, "w")
-  # Iterate over the array of students
-  @all_students.each {
-    |student|
-    student_array = [student[:name], student[:cohort], student[:hobby], student[:cob]]
-    file.puts(student_array.join(","))
+  File.open(chosen_file, "w") {
+    |file|
+    # Iterate over the array of students
+    @all_students.each {
+      |student|
+      student_array = [student[:name], student[:cohort], student[:hobby], student[:cob]]
+      file.puts(student_array.join(","))
+    }
   }
-  file.close
   puts "\nData saved to #{chosen_file}"
   puts ""
 end
@@ -147,15 +148,16 @@ end
 
 def retrieve_data(filename = "students.csv")
   # Open the file for reading
-  file = File.open(filename,"r")
-  file.readlines.each {
-    |line|
-    name, cohort, hobby, cob = line.chomp.split(",")
-      add_student(name, cohort, hobby, cob)
+  File.open(filename,"r") {
+    |file|
+    file.readlines.each {
+      |line|
+      name, cohort, hobby, cob = line.chomp.split(",")
+        add_student(name, cohort, hobby, cob)
+    }
+    puts "\nLoaded previously stored data from #{filename}."
+    puts ""
   }
-  puts "\nLoaded previously stored data from #{filename}."
-  puts ""
-  file.close
 end
 
 def try_retrieve_data
