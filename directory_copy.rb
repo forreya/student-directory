@@ -96,6 +96,7 @@ def print_menu
   puts "2. Display students."
   puts "3. Save data."
   puts "4. Retrieve previous data."
+  puts "5. Print source code of this program."
   puts "9. Exit"
 end
 
@@ -182,6 +183,13 @@ def argv_given
   return true if !ARGV.empty?
 end
 
+def read_source_code
+  puts ""
+  print File.read(__FILE__)
+  puts ""
+  sleep(3)
+end
+
 def selection_process(selection)
   case selection
   when "1"
@@ -194,6 +202,8 @@ def selection_process(selection)
     puts "\nWhich file would you like to retrieve the data from?"
     filename = choose_file
     retrieve_data(filename)
+  when "5"
+    read_source_code
   when "9"
     # Exits the program
     puts "Exiting program..."
