@@ -127,6 +127,8 @@ def retrieve_data(filename = "students.csv")
     name, cohort, hobby, cob = line.chomp.split(",")
       add_student(name, cohort, hobby, cob)
   }
+  puts "\nLoaded previously stored data from #{filename}."
+  puts ""
   file.close
 end
 
@@ -136,7 +138,6 @@ def try_retrieve_data
     retrieve_data()
   elsif File.exist?(filename)
     retrieve_data(filename)
-    puts "Loaded previously stored data from #{filename}"
   else
     puts "The file '#{filename}' couldn't be found."
     exit
@@ -159,9 +160,12 @@ def selection_process(selection)
     retrieve_data
   when "9"
     # Exits the program
+    puts "Exiting program..."
+    sleep(1)
     exit
   else
     puts "That is not a valid selection."
+    puts ""
   end
 end
 
