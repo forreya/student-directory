@@ -1,4 +1,4 @@
-# student-directory
+# Student Directory Terminal Program
 
 The student directory program allows you to manage the list of students enrolled at a school.
 
