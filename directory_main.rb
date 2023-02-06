@@ -2,7 +2,7 @@
 @all_students = []
 
 def print_header
-  puts "The students of Villains Academy".center(40)
+  puts "The students of InterGalactic School:".center(40)
   puts "-------------".center(40)
 end
 
@@ -196,6 +196,7 @@ def selection_process(selection)
     input_students
   when "2"
     display_students
+    sleep(3)
   when "3"
     save_data
   when "4"
@@ -210,8 +211,10 @@ def selection_process(selection)
     sleep(1)
     exit
   else
+    puts ""
     puts "That is not a valid selection."
     puts ""
+    sleep(1)
   end
 end
 
